@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
+import authRoutes from './routes/authRoutes.js';
 
 //load env variables
 dotenv.config();
@@ -26,6 +27,8 @@ app.use(morgan('dev'));
 app.get('/',(req,res) => {
     res.send('Felicity Event Management API is running');
 });
+
+app.use('/api/auth', authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
