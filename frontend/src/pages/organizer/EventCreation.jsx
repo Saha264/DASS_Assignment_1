@@ -16,7 +16,9 @@ const EventCreation = () => {
         eventEndDate: '',
         registrationLimit: '',
         fee: '',
-        tags: '' // Comma separated string for UX
+        tags: '', // Comma separated string for UX
+        isTeamEvent: false,
+        teamSize: 1
     });
 
     // Merchandise Variants State
@@ -149,6 +151,30 @@ const EventCreation = () => {
                                 className="w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 p-2 border"
                             ></textarea>
                         </div>
+                        {eventData.eventType === 'Normal' && (
+                            <div className="md:col-span-2 flex items-center gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox" id="isTeamEvent"
+                                        checked={eventData.isTeamEvent}
+                                        onChange={(e) => setEventData(prev => ({ ...prev, isTeamEvent: e.target.checked }))}
+                                        className="w-5 h-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+                                    />
+                                    <label htmlFor="isTeamEvent" className="font-medium text-gray-800">Is this a Hackathon / Team Event?</label>
+                                </div>
+                                {eventData.isTeamEvent && (
+                                    <div className="flex items-center gap-2 ml-4 border-l pl-4 border-gray-300">
+                                        <label className="text-sm font-medium text-gray-700">Required Team Size:</label>
+                                        <input
+                                            type="number" min="1"
+                                            value={eventData.teamSize}
+                                            onChange={(e) => setEventData(prev => ({ ...prev, teamSize: Number(e.target.value) }))}
+                                            className="w-20 border-gray-300 rounded-md p-1 border text-center"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 

@@ -20,7 +20,9 @@ export const createEvent = async (req, res, next) => {
             fee,
             tags,
             customFormFields,
-            merchandiseDetails
+            merchandiseDetails,
+            isTeamEvent,
+            teamSize
         } = req.body;
         const event = await Event.create({
             eventName,
@@ -36,7 +38,9 @@ export const createEvent = async (req, res, next) => {
             organizer: req.user._id, // Assign the logged-in organizer to this event
             status: 'Draft',
             customFormFields: customFormFields || [],
-            merchandiseDetails: merchandiseDetails || {}
+            merchandiseDetails: merchandiseDetails || {},
+            isTeamEvent: isTeamEvent || false,
+            teamSize: teamSize || 1
         });
         res.status(201).json(event);
     } catch (error) {
@@ -167,7 +171,7 @@ export const getEventById = async (req, res, next) => {
 export const getPublicEvents = async (req, res, next) => {
     try {
         const { search, type, organizer } = req.query;
-        
+
         // Base query: Only show events that are Published or Ongoing
         let query = { status: { $in: ['Published', 'Ongoing'] } };
 
@@ -207,7 +211,7 @@ export const getPublicEventById = async (req, res, next) => {
     try {
         const event = await Event.findById(req.params.id)
             .populate('organizer', 'organizerName contactEmail discordWebhook category');
-        
+
         if (!event || !['Published', 'Ongoing', 'Completed', 'Closed'].includes(event.status)) {
             res.status(404);
             throw new Error('Event not found or not available to public');
@@ -286,7 +290,7 @@ export const registerForEvent = async (req, res, next) => {
         res.status(201).json(registration);
     } catch (error) {
         // Handle duplicate error code gracefully
-        if(error.code === 11000) {
+        if (error.code === 11000) {
             res.status(400); next(new Error('You have already registered for this event.'));
         } else {
             next(error);
@@ -312,7 +316,7 @@ export const purchaseMerchandise = async (req, res, next) => {
         }
 
         const activeOrder = await Order.findOne({ participant: participantId, event: eventId });
-        if(activeOrder && activeOrder.status !== 'Rejected') {
+        if (activeOrder && activeOrder.status !== 'Rejected') {
             res.status(400); throw new Error('You already have a pending or approved order for this item.');
         }
 

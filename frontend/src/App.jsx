@@ -14,6 +14,7 @@ import ParticipantDashboard from './pages/participant/ParticipantDashboard';
 import ParticipantEventDetails from './pages/participant/ParticipantEventDetails';
 import ParticipantMyEvents from './pages/participant/ParticipantMyEvents';
 import ParticipantLayout from './components/layout/ParticipantLayout';
+import TeamDashboard from './pages/participant/TeamDashboard';
 
 
 // Temporary placeholder components for Dashboards
@@ -50,6 +51,7 @@ function App() {
               <Route path="/participant/profile" element={<ParticipantProfile />} />
               <Route path="/participant/events/:id" element={<ParticipantEventDetails />} />
               <Route path="/participant/my-events" element={<ParticipantMyEvents />} />
+              <Route path="/participant/teams/:id" element={<TeamDashboard />} />
             </Route>
           </Route>
 

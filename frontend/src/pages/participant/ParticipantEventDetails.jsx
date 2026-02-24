@@ -17,6 +17,11 @@ const ParticipantEventDetails = () => {
 
     const [formData, setFormData] = useState({});
 
+    // Team Event States
+    const [teamMode, setTeamMode] = useState('create'); // 'create' or 'join'
+    const [teamName, setTeamName] = useState('');
+    const [inviteCode, setInviteCode] = useState('');
+
     useEffect(() => {
         fetchEventData();
     }, [id]);
@@ -55,6 +60,34 @@ const ParticipantEventDetails = () => {
             setRegistrationStatus({ isRegistered: true, ticket: data });
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
+        } finally {
+            setRegistering(false);
+        }
+    };
+
+    const handleCreateTeam = async (e) => {
+        e.preventDefault();
+        if (!teamName) return setError("Team name is required");
+        try {
+            setRegistering(true); setError(null);
+            const { data } = await API.post('/teams', { eventId: id, teamName });
+            navigate(`/participant/teams/${data._id}`);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to create team');
+        } finally {
+            setRegistering(false);
+        }
+    };
+
+    const handleJoinTeam = async (e) => {
+        e.preventDefault();
+        if (!inviteCode) return setError("Invite code is required");
+        try {
+            setRegistering(true); setError(null);
+            const { data } = await API.post('/teams/join', { inviteCode });
+            navigate(`/participant/teams/${data._id}`);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to join team');
         } finally {
             setRegistering(false);
         }
@@ -155,8 +188,39 @@ const ParticipantEventDetails = () => {
                             </div>
                         ) : event.eventType === 'Merchandise' ? (
                             <MerchandisePurchaseForm event={event} onPurchaseSuccess={handlePurchaseSuccess} />
-                        ) : (
+                        ) : event.isTeamEvent ? (
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm mt-4">
+                                <h4 className="text-xl font-bold text-gray-900 mb-2">Hackathon Registration</h4>
+                                <p className="text-gray-600 mb-6 text-sm">This is a team event! Required team size: <span className="font-bold text-indigo-600">{event.teamSize}</span>. Get your friends together to participate.</p>
 
+                                <div className="flex border-b mb-6 border-gray-300">
+                                    <button onClick={() => { setTeamMode('create'); setError(null) }} className={`pb-2 px-4 font-bold text-sm transition-colors ${teamMode === 'create' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-800'}`}>Create a Team</button>
+                                    <button onClick={() => { setTeamMode('join'); setError(null) }} className={`pb-2 px-4 font-bold text-sm transition-colors ${teamMode === 'join' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-500 hover:text-gray-800'}`}>Join via Invite Code</button>
+                                </div>
+
+                                {teamMode === 'create' ? (
+                                    <form onSubmit={handleCreateTeam} className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Pick a Team Name *</label>
+                                            <input required type="text" value={teamName} onChange={e => setTeamName(e.target.value)} className="w-full border-gray-300 rounded-md p-2 border focus:ring-indigo-500" placeholder="e.g. Binary Beasts" />
+                                        </div>
+                                        <button type="submit" disabled={registering} className="w-full py-2 bg-indigo-600 text-white font-bold rounded hover:bg-indigo-700 disabled:bg-indigo-400">
+                                            {registering ? 'Creating...' : 'Create Team & Get Code'}
+                                        </button>
+                                    </form>
+                                ) : (
+                                    <form onSubmit={handleJoinTeam} className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Enter Invite Code *</label>
+                                            <input required type="text" value={inviteCode} onChange={e => setInviteCode(e.target.value)} className="w-full border-gray-300 rounded-md p-2 border uppercase focus:ring-indigo-500" placeholder="e.g. ABCDEF" maxLength={6} />
+                                        </div>
+                                        <button type="submit" disabled={registering} className="w-full py-2 bg-gray-800 text-white font-bold rounded hover:bg-gray-900 disabled:bg-gray-400">
+                                            {registering ? 'Joining...' : 'Join Team'}
+                                        </button>
+                                    </form>
+                                )}
+                            </div>
+                        ) : (
                             <form onSubmit={handleRegister} className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
                                 {event.customFormFields && event.customFormFields.length > 0 && (
                                     <div className="mb-6 space-y-4">

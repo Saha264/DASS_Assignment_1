@@ -10,6 +10,8 @@ const EventDetails = () => {
     const [event, setEvent] = useState(null);
     const [orders, setOrders] = useState([]); // Used for Merchandise
     const [attendees, setAttendees] = useState([]); // Used for Normal Events
+    const [feedback, setFeedback] = useState([]); // Used for Event Feedback
+    const [feedbackStats, setFeedbackStats] = useState({ count: 0, averageRating: 0 });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [updating, setUpdating] = useState(false);
@@ -30,6 +32,18 @@ const EventDetails = () => {
             } else {
                 const attendeesRes = await API.get(`/events/${id}/attendees`);
                 setAttendees(attendeesRes.data?.attendees || []); // Placeholder for Task 4 completion
+            }
+
+            // Fetch Feedback
+            try {
+                const feedbackRes = await API.get(`/feedback/event/${id}`);
+                setFeedback(feedbackRes.data.feedbacks || []);
+                setFeedbackStats({
+                    count: feedbackRes.data.count || 0,
+                    averageRating: feedbackRes.data.averageRating || 0
+                });
+            } catch (fbErr) {
+                console.warn("Could not load feedback:", fbErr);
             }
 
         } catch (err) {
@@ -138,13 +152,69 @@ const EventDetails = () => {
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                     <div className="text-sm text-gray-500 mb-1">Registrations / Orders</div>
                     <div className="font-semibold text-gray-900 text-2xl">{event.eventType === 'Merchandise' ? orders.length : attendees.length}</div>
-                    <div className="text-sm text-gray-600">{event.registrationLimit} Capacity }</div>
+                    <div className="text-sm text-gray-600">{event.registrationLimit} Capacity</div>
                 </div>
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                     <div className="text-sm text-gray-500 mb-1">Fee</div>
                     <div className="font-semibold text-green-600 text-2xl">{event.fee === 0 ? 'Free' : `₹${event.fee}`}</div>
                 </div>
+                {['Completed', 'Closed'].includes(event.status) && (
+                    <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div className="text-sm text-gray-500 mb-1">Average Feedback</div>
+                        <div className="font-semibold text-yellow-500 text-2xl">
+                            {feedbackStats.averageRating > 0 ? (
+                                <>{feedbackStats.averageRating} <span className="text-sm text-gray-400">/ 5</span></>
+                            ) : (
+                                <span className="text-gray-400 text-lg">No Ratings</span>
+                            )}
+                        </div>
+                        <div className="text-sm text-gray-600">{feedbackStats.count} Reviews</div>
+                    </div>
+                )}
             </div>
+
+            {/* Participant Feedback Module */}
+            {['Completed', 'Closed'].includes(event.status) && (
+                <div className="bg-white overflow-hidden rounded-xl shadow-sm border border-gray-100 mt-8">
+                    <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h2 className="text-xl font-bold text-gray-900">Participant Feedback</h2>
+                    </div>
+
+                    {feedback.length === 0 ? (
+                        <div className="p-10 text-center text-gray-500">No feedback submitted for this event yet.</div>
+                    ) : (
+                        <div className="p-6 grid gap-4 grid-cols-1 md:grid-cols-2">
+                            {feedback.map((fb) => (
+                                <div key={fb._id} className="bg-gray-50 rounded-xl p-5 border border-gray-100 relative">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex items-center gap-3">
+                                            {fb.isAnonymous ? (
+                                                <div className="h-10 w-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-500 font-bold">?</div>
+                                            ) : (
+                                                <div className="h-10 w-10 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">
+                                                    {fb.participant?.firstName?.[0]}{fb.participant?.lastName?.[0]}
+                                                </div>
+                                            )}
+                                            <div>
+                                                <h4 className="font-bold text-gray-900">
+                                                    {fb.isAnonymous ? 'Anonymous Participant' : `${fb.participant?.firstName} ${fb.participant?.lastName}`}
+                                                </h4>
+                                                <span className="text-xs text-gray-500">{format(new Date(fb.createdAt), 'MMM dd, yyyy h:mm a')}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex text-yellow-400 text-lg">
+                                            {Array.from({ length: 5 }).map((_, i) => (
+                                                <span key={i} className={i < fb.rating ? 'opacity-100' : 'text-gray-300'}>★</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    {fb.comment && <p className="text-gray-700 text-sm mt-2 italic">"{fb.comment}"</p>}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Merchandise Payment Verification Module! */}
             {event.eventType === 'Merchandise' && (
@@ -187,8 +257,8 @@ const EventDetails = () => {
                                             </td>
                                             <td className="p-4">
                                                 <span className={`px-2 py-1 rounded text-xs font-bold ${order.status === 'Approved' ? 'bg-green-100 text-green-800' :
-                                                        order.status === 'Rejected' ? 'bg-red-100 text-red-800' :
-                                                            'bg-yellow-100 text-yellow-800'
+                                                    order.status === 'Rejected' ? 'bg-red-100 text-red-800' :
+                                                        'bg-yellow-100 text-yellow-800'
                                                     }`}>
                                                     {order.status}
                                                 </span>
