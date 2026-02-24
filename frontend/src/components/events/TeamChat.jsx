@@ -42,7 +42,7 @@ const TeamChat = ({ teamId }) => {
         fetchMessages();
 
         // 2. Initialize Socket Connection
-        socketRef.current = io('http://localhost:5000');
+        socketRef.current = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
 
         socketRef.current.on('connect', () => {
             setIsConnected(true);
