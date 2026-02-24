@@ -44,9 +44,24 @@ app.use(morgan('dev'));
 
 //Routes
 
-app.get('/', (req, res) => {
-    res.send('Felicity Event Management API is running');
-});
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    app.get('*', (req, res) => {
+        // Exclude /api routes so they get handled by the notFound middleware below
+        if (!req.path.startsWith('/api')) {
+            res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
+        } else {
+            res.status(404).json({ message: 'API Route Not Found' });
+        }
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.send('Felicity Event Management API is running');
+    });
+}
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -57,8 +72,6 @@ app.use('/api/teams', teamRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/feedback', feedbackRoutes);
 
-
-const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(notFound);

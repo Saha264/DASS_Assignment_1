@@ -1,0 +1,9 @@
+{
+    "name": "felicity-events",
+    "version": "1.0.0",
+    "description": "Felicity Event Management System",
+    "scripts": {
+        "start": "npm run start --prefix backend",
+        "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"
+    }
+}
