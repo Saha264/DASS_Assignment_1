@@ -34,7 +34,7 @@ export const registerParticipant = async (req, res, next) => {
       firstName,
       lastName,
       email,
-      participantType,
+      participant_type: participantType,
       collegeName,
       contactNumber,
       password,

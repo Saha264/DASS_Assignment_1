@@ -1,0 +1,214 @@
+
+> backend@1.0.0 dev
+> node --watch server.js
+
+(node:106678) ExperimentalWarning: Watch mode is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mPUT /api/organizers/profile [33m401[0m 7.172 ms - 47[0m
+[0mPOST /api/auth/login [32m200[0m 143.034 ms - 302[0m
+[0mGET /api/organizers/profile [32m200[0m 19.667 ms - 245[0m
+[0mGET /api/organizers/profile [32m200[0m 14.857 ms - 245[0m
+[0mPUT /api/organizers/profile [31m500[0m 15.599 ms - 740[0m
+[0mGET /api/organizers/profile [32m200[0m 17.625 ms - 245[0m
+[0mGET /api/organizers/profile [32m200[0m 13.254 ms - 245[0m
+[0mPUT /api/organizers/profile [31m500[0m 9.534 ms - 740[0m
+[0mPUT /api/organizers/profile [31m500[0m 11.993 ms - 740[0m
+[0mPUT /api/organizers/profile [31m500[0m 12.691 ms - 740[0m
+[0mPUT /api/organizers/profile [31m500[0m 12.850 ms - 740[0m
+[0mGET /api/organizers/profile [32m200[0m 16.092 ms - 245[0m
+[0mGET /api/organizers/profile [32m200[0m 13.446 ms - 245[0m
+[0mPUT /api/organizers/profile [31m500[0m 13.531 ms - 740[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mPUT /api/organizers/profile [33m401[0m 7.459 ms - 47[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mGET /api/organizers/profile [32m200[0m 46.263 ms - 245[0m
+[0mGET /api/organizers/profile [32m200[0m 31.937 ms - 245[0m
+[0mPUT /api/organizers/profile [32m200[0m 34.759 ms - 162[0m
+[0mGET /api/organizers/profile [32m200[0m 20.438 ms - 248[0m
+[0mGET /api/organizers/profile [32m200[0m 15.629 ms - 248[0m
+[0mPUT /api/organizers/profile [32m200[0m 12.447 ms - 190[0m
+[0mGET /api/organizers/profile [32m200[0m 18.407 ms - 276[0m
+[0mGET /api/organizers/profile [32m200[0m 15.064 ms - 276[0m
+[0mPUT /api/organizers/profile [32m200[0m 197.547 ms - 190[0m
+[0mPUT /api/organizers/profile [32m200[0m 148.679 ms - 190[0m
+[0mPOST /api/auth/login [32m200[0m 156.233 ms - 302[0m
+[0mGET /api/organizers/profile [32m200[0m 16.293 ms - 276[0m
+[0mGET /api/organizers/profile [32m200[0m 11.269 ms - 276[0m
+[0mPOST /api/organizers/reset-password-request [32m202[0m 10.870 ms - 78[0m
+[0mPOST /api/auth/login [33m401[0m 119.913 ms - 191[0m
+[0mPOST /api/auth/login [32m200[0m 184.028 ms - 295[0m
+[0mGET /api/admin/password-requests [32m200[0m 36.126 ms - 269[0m
+[0mPUT /api/admin/password-requests/699d8818d4e4069cba917184 [31m500[0m 9.324 ms - 1173[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mGET /api/admin/password-requests [36m304[0m 33.376 ms - -[0m
+[0mPUT /api/admin/password-requests/699d8818d4e4069cba917184 [31m500[0m 12.529 ms - 320[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mPOST /api/auth/register [31m500[0m 49.065 ms - 1313[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mPOST /api/auth/register [31m500[0m 8.711 ms - 1313[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+Restarting 'server.js'
+file:///home/saharsh-kallu/DASS_Assignment_1/backend/routes/eventRoutes.js:19
+    .get(protect, authorize('Organizer', 'Admin'), getEventById)
+                                                   ^
+
+ReferenceError: getEventById is not defined
+    at file:///home/saharsh-kallu/DASS_Assignment_1/backend/routes/eventRoutes.js:19:52
+    at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:336:24)
+    at async loadESM (node:internal/process/esm_loader:34:7)
+    at async handleMainPromise (node:internal/modules/run_main:106:12)
+
+Node.js v18.19.1
+Failed running 'server.js'
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
+[0mPOST /api/auth/login [33m401[0m 25.524 ms - 274[0m
+[0mPOST /api/auth/login [32m200[0m 45.668 ms - 302[0m
+[0mGET /api/events/organizer [32m200[0m 7.489 ms - 2[0m
+[0mGET /api/events/organizer [32m200[0m 7.153 ms - 2[0m
+[0mGET /api/organizers/profile [36m304[0m 7.258 ms - -[0m
+[0mGET /api/organizers/profile [36m304[0m 6.698 ms - -[0m
+[0mPUT /api/organizers/profile [32m200[0m 20.110 ms - 197[0m
+[0mGET /api/organizers/profile [32m200[0m 19.784 ms - 283[0m
+[0mGET /api/organizers/profile [32m200[0m 21.120 ms - 283[0m
+[0mGET /api/events/organizer [36m304[0m 18.832 ms - -[0m
+[0mGET /api/events/organizer [32m200[0m 16.869 ms - 2[0m
+[0mPUT /api/organizers/profile [32m200[0m 8.677 ms - 201[0m
+[0mGET /api/organizers/profile [32m200[0m 17.540 ms - 287[0m
+[0mGET /api/organizers/profile [32m200[0m 23.858 ms - 287[0m
+[0mGET /api/events/organizer [36m304[0m 15.030 ms - -[0m
+[0mGET /api/events/organizer [32m200[0m 12.607 ms - 2[0m
+[0mPOST /api/events [32m201[0m 29.422 ms - 673[0m
+[0mGET /api/events/organizer [32m200[0m 18.435 ms - 675[0m
+[0mGET /api/organizers/profile [36m304[0m 16.061 ms - -[0m
+[0mGET /api/events/organizer [32m200[0m 16.182 ms - 675[0m
+[0mGET /api/organizers/profile [36m304[0m 12.702 ms - -[0m
+[0mPOST /api/events [32m201[0m 6.918 ms - 731[0m
+[0mGET /api/organizers/profile [36m304[0m 6.951 ms - -[0m
+[0mGET /api/events/organizer [32m200[0m 5.181 ms - 1407[0m
+[0mGET /api/events/organizer [32m200[0m 12.040 ms - 1407[0m
+[0mGET /api/organizers/profile [32m200[0m 10.479 ms - 287[0m
+[0mGET /api/events/699dacc2c9d0965aac705ed8 [31m500[0m 26.736 ms - 345[0m
+[0mGET /api/events/699dacc2c9d0965aac705ed8/attendees [32m200[0m 24.708 ms - 109[0m
+[0mGET /api/events/699dacc2c9d0965aac705ed8 [31m500[0m 24.970 ms - 345[0m
+[0mGET /api/events/699dacc2c9d0965aac705ed8/attendees [32m200[0m 24.265 ms - 109[0m
+Restarting 'server.js'
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server is rinning in development mode on port 5000
+MongoDb Connected: localhost
