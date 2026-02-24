@@ -1,13 +1,15 @@
 import express from 'express';
 import {
     requestPasswordReset, getOrganizerProfile,
-    updateOrganizerProfile
+    updateOrganizerProfile, getPublicOrganizers
 } from '../controllers/organizerController.js';
 import { protect, authorize } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
 router.post('/reset-password-request', requestPasswordReset);
+
+router.get('/public', getPublicOrganizers);
 
 router.route('/profile')
     .get(protect, authorize('Organizer'), getOrganizerProfile)

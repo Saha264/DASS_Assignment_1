@@ -96,3 +96,16 @@ export const updateOrganizerProfile = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Get all organizers (Public view for Participants to follow clubs)
+// @route   GET /api/organizers/public
+// @access  Public
+export const getPublicOrganizers = async (req, res, next) => {
+    try {
+        // We only expose non-sensitive fields
+        const organizers = await Organizer.find({}).select('organizerName category description');
+        res.json(organizers);
+    } catch (error) {
+        next(error);
+    }
+};

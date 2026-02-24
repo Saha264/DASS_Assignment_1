@@ -9,11 +9,16 @@ import OrganizerPasswordReset from './pages/auth/OrganizerPasswordReset';
 import OrganizerDashboard from './pages/organizer/OrganizerDashboard';
 import EventCreation from './pages/organizer/EventCreation';
 import EventDetails from './pages/organizer/EventDetails';
+import ParticipantProfile from './pages/participant/ParticipantProfile';
+import ParticipantDashboard from './pages/participant/ParticipantDashboard';
+import ParticipantEventDetails from './pages/participant/ParticipantEventDetails';
+import ParticipantMyEvents from './pages/participant/ParticipantMyEvents';
+import ParticipantLayout from './components/layout/ParticipantLayout';
 
 
 // Temporary placeholder components for Dashboards
 const Unauthorized = () => <div className="p-10 text-xl font-bold text-red-600 text-center">Unauthorized Access</div>;
-const ParticipantDash = () => <div className="p-10 text-xl font-bold text-blue-600 text-center">Welcome, Participant!</div>;
+
 
 
 
@@ -40,7 +45,12 @@ function App() {
 
           {/* Participant Routes */}
           <Route element={<ProtectedRoute allowedRoles={['Participant']} />}>
-            <Route path="/dashboard" element={<ParticipantDash />} />
+            <Route element={<ParticipantLayout />}>
+              <Route path="/dashboard" element={<ParticipantDashboard />} />
+              <Route path="/participant/profile" element={<ParticipantProfile />} />
+              <Route path="/participant/events/:id" element={<ParticipantEventDetails />} />
+              <Route path="/participant/my-events" element={<ParticipantMyEvents />} />
+            </Route>
           </Route>
 
           {/* Organizer Routes */}
