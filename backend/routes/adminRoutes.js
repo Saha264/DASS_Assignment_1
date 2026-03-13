@@ -14,7 +14,7 @@ router.route('/organizers')
     .get(getOrganizers)
     .post(createOrganizer);
 
-router.route('organizers/:id')
+router.route('/organizers/:id')
     .delete(deleteOrganizer);
 
 router.route('/password-requests')

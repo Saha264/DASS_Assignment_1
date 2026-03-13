@@ -52,6 +52,19 @@ app.use(morgan('dev'));
 
 const __dirname = path.resolve();
 
+app.get('/', (req, res) => {
+    res.send('Felicity Event Management API is running');
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/organizers', organizerRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/participants', participantRoutes);
+app.use('/api/teams', teamRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/feedback', feedbackRoutes);
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
@@ -63,20 +76,7 @@ if (process.env.NODE_ENV === 'production') {
             res.status(404).json({ message: 'API Route Not Found' });
         }
     });
-} else {
-    app.get('/', (req, res) => {
-        res.send('Felicity Event Management API is running');
-    });
 }
-
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/organizers', organizerRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/participants', participantRoutes);
-app.use('/api/teams', teamRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/feedback', feedbackRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
