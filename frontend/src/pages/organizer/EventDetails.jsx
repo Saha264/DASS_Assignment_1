@@ -250,10 +250,10 @@ const EventDetails = () => {
                                                 Qty: {order.quantity}
                                             </td>
                                             <td className="p-4">
-                                                <a href={`http://localhost:5000${order.paymentProof}`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline font-medium text-xs hover:text-indigo-800 block mb-1">
+                                                <a href={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${order.paymentProof}`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline font-medium text-xs hover:text-indigo-800 block mb-1">
                                                     View Image ↗
                                                 </a>
-                                                <img src={`http://localhost:5000${order.paymentProof}`} alt="proof" className="w-16 h-16 object-cover rounded border" />
+                                                <img src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${order.paymentProof}`} alt="proof" className="w-16 h-16 object-cover rounded border" />
                                             </td>
                                             <td className="p-4">
                                                 <span className={`px-2 py-1 rounded text-xs font-bold ${order.status === 'Approved' ? 'bg-green-100 text-green-800' :
