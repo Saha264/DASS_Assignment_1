@@ -16,6 +16,7 @@ import teamRoutes from './routes/teamRoutes.js';
 import feedbackRoutes from './routes/feedbackRoutes.js';
 
 import messageRoutes from './routes/messageRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import Message from './models/Message.js';
@@ -64,6 +65,7 @@ app.use('/api/participants', participantRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));

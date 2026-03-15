@@ -9,6 +9,12 @@ const OrganizerDashboard = () => {
     const { userInfo, logout } = useAuthStore();
     const [activeTab, setActiveTab] = useState('events'); // 'profile' | 'events' | 'overview'
 
+    // --- Analytics State ---
+    const [analytics, setAnalytics] = useState(null);
+    const [loadingAnalytics, setLoadingAnalytics] = useState(false);
+    const [analyticsError, setAnalyticsError] = useState('');
+    const [selectedEventId, setSelectedEventId] = useState('');
+
     // --- Profile State ---
     const [profile, setProfile] = useState({
         organizerName: '',
@@ -32,6 +38,13 @@ const OrganizerDashboard = () => {
         fetchProfile();
         fetchEvents();
     }, []);
+
+    useEffect(() => {
+        if (activeTab === 'overview') {
+            fetchAnalytics();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeTab]);
 
     const fetchProfile = async () => {
         try {
@@ -58,6 +71,45 @@ const OrganizerDashboard = () => {
         } finally {
             setLoadingEvents(false);
         }
+    };
+
+    const fetchAnalytics = async () => {
+        try {
+            setLoadingAnalytics(true);
+            setAnalyticsError('');
+            const { data } = await API.get('/analytics/organizer/registrations');
+            setAnalytics(data);
+
+            // Choose default selection if not set
+            const firstEventId = data?.events?.[0]?._id;
+            if (firstEventId && !selectedEventId) {
+                setSelectedEventId(firstEventId);
+            }
+        } catch (err) {
+            setAnalyticsError(err.response?.data?.message || 'Failed to load analytics');
+        } finally {
+            setLoadingAnalytics(false);
+        }
+    };
+
+    const downloadCsv = (rows, filename) => {
+        const escape = (val) => {
+            const s = String(val ?? '');
+            if (s.includes('"') || s.includes(',') || s.includes('\n')) {
+                return `"${s.replaceAll('"', '""')}"`;
+            }
+            return s;
+        };
+        const csv = rows.map(r => r.map(escape).join(',')).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
     };
 
     const handleProfileUpdate = async (e) => {
@@ -326,17 +378,129 @@ const OrganizerDashboard = () => {
                         </div>
 
                         <div className="bg-white p-5 shadow rounded-lg border border-gray-100 flex items-center">
-                            <div className="bg-pink-100 rounded-md p-3 mr-4 text-pink-600">💰</div>
+                            <div className="bg-pink-100 rounded-md p-3 mr-4 text-pink-600">👥</div>
                             <div>
-                                <div className="text-sm font-medium text-gray-500">Total Revenue</div>
-                                <div className="text-lg font-semibold text-gray-400">Coming in Task 4</div>
+                                <div className="text-sm font-medium text-gray-500">Total Registrations (Confirmed)</div>
+                                <div className="text-2xl font-semibold text-gray-900">
+                                    {loadingAnalytics ? '…' : (analytics?.totalConfirmedRegistrations ?? 0)}
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white shadow rounded-lg p-8 text-center border border-gray-100 mt-6">
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">Detailed Registration Analytics</h3>
-                        <p className="text-gray-500">Detailed line charts and registration exports will unlock when we implement participant registration in Task 4!</p>
+                    <div className="bg-white shadow rounded-lg border border-gray-100 p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                            <div>
+                                <h3 className="text-lg font-medium text-gray-900">Detailed Registration Analytics</h3>
+                                <p className="text-sm text-gray-500">Confirmed participant registrations per event.</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={fetchAnalytics}
+                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-sm font-medium"
+                                >
+                                    Refresh
+                                </button>
+                            </div>
+                        </div>
+
+                        {analyticsError && (
+                            <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
+                                {analyticsError}
+                            </div>
+                        )}
+
+                        {loadingAnalytics ? (
+                            <div className="flex justify-center p-10">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                            </div>
+                        ) : !analytics?.events?.length ? (
+                            <div className="p-8 text-center text-gray-500">
+                                No events found for this organizer.
+                            </div>
+                        ) : (
+                            <>
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                                        <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-700">
+                                            Registrations by Event
+                                        </div>
+                                        <div className="divide-y divide-gray-200">
+                                            {analytics.events.map((e) => (
+                                                <button
+                                                    key={e._id}
+                                                    type="button"
+                                                    onClick={() => setSelectedEventId(e._id)}
+                                                    className={`w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center justify-between ${selectedEventId === e._id ? 'bg-indigo-50' : ''}`}
+                                                >
+                                                    <div>
+                                                        <div className="font-medium text-gray-900">{e.eventName}</div>
+                                                        <div className="text-xs text-gray-500">{e.status} • {e.eventType}</div>
+                                                    </div>
+                                                    <div className="text-sm font-semibold text-gray-900">
+                                                        {e.registrationsConfirmed} / {e.registrationLimit}
+                                                    </div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                                        <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                                            <div className="text-sm font-semibold text-gray-700">Daily Registrations</div>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const ev = analytics.events.find(x => x._id === selectedEventId) || analytics.events[0];
+                                                    const points = ev?.registrationsSeries || [];
+                                                    const rows = [
+                                                        ['eventId', 'eventName', 'date', 'count'],
+                                                        ...points.map(p => [String(ev._id), ev.eventName, p.date, p.count])
+                                                    ];
+                                                    downloadCsv(rows, `registrations_${String(ev._id)}.csv`);
+                                                }}
+                                                className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                                            >
+                                                Export CSV
+                                            </button>
+                                        </div>
+
+                                        {(() => {
+                                            const ev = analytics.events.find(x => x._id === selectedEventId) || analytics.events[0];
+                                            const points = ev?.registrationsSeries || [];
+                                            if (!points.length) {
+                                                return (
+                                                    <div className="p-6 text-sm text-gray-500">
+                                                        No confirmed registrations yet for this event.
+                                                    </div>
+                                                );
+                                            }
+                                            return (
+                                                <div className="max-h-80 overflow-auto">
+                                                    <table className="min-w-full divide-y divide-gray-200">
+                                                        <thead className="bg-white sticky top-0">
+                                                            <tr>
+                                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                                                <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="bg-white divide-y divide-gray-200">
+                                                            {points.map((p) => (
+                                                                <tr key={p.date}>
+                                                                    <td className="px-4 py-2 text-sm text-gray-700">{p.date}</td>
+                                                                    <td className="px-4 py-2 text-sm text-gray-900 text-right font-medium">{p.count}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             )}
